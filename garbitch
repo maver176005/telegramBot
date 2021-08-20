@@ -1,0 +1,44 @@
+require("dotenv").config();
+const { default: axios } = require("axios");
+const { Telegraf, Telegram } = require("telegraf");
+const { BOT_TOKEN } = process.env;
+const { PIXABAY_KEY } = process.env;
+const bot = new Telegraf(BOT_TOKEN);
+const seartchImg = require("./seartchImg");
+// const axios = require("axios");
+console.log("boottt---->>>", bot);
+// console.log("__________>", seartchImg());
+
+bot.start((ctx) => {
+  return ctx.reply(`
+  Привет я Pic_in_bot_Bot!
+  я ищу картинки по ключевому слову
+  [@Pic_in_bot_Bot](t.me/Pic_in_bot_Bot) <image-name> 
+  вы получите  20 картинок на выбор по своему ключевому слову!
+  `);
+});
+
+bot.on("inline_query", async (ctx) => {
+  let query = ctx.inlineQuery.query;
+  let res = await axios.get(
+    `https://pixabay.com/api/?key=${PIXABAY_KEY}&q=${query}`
+  );
+  let resulst = res.data.hits.map((item, index) => {
+    return {
+      type: "photo",
+      id: String(index),
+      photo_url: item.webformatURL,
+      thumb_url: item.previewURL,
+      title: item.tags,
+      decription: item.tags.split(",").slice(0, 1).join(),
+    };
+  });
+  console.log("RESULT---->>>", resulst);
+  // console.log("--------=====", ctx.answerInlineQuery(resulst));
+  await ctx.telegram.answerInlineQuery(ctx.inlineQuery.id, resulst);
+});
+
+bot
+  .launch()
+  .then((res) => console.log("started"))
+  .catch((err) => console.log("start error"));

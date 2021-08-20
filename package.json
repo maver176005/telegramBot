@@ -1,0 +1,26 @@
+{
+  "name": "telegramBot",
+  "version": "1.0.0",
+  "description": "инлайн бот для предоставления картинок в чат по ключевому слову",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maver176005/telegramBot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maver176005/telegramBot/issues"
+  },
+  "homepage": "https://github.com/maver176005/telegramBot#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.12",
+    "telegraf": "^4.4.1"
+  }
+}
